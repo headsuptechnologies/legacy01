@@ -1,0 +1,10 @@
+{
+  "output_path": "./",
+  "options": {
+    "cache":         true,
+    "debug":         false,
+    "line-comments": false,
+    "line-numbers":  true,
+    "style":         "nested"
+  }
+}

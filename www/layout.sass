@@ -1,0 +1,422 @@
+@import _util
+@import _reset
+@import _animations
+
+// sizes
+$height : 272px
+$width : 480px
+$toggle_height : 45px
+$outer_margin : 0.05
+
+// control panel buttons
+$panel_button_count: 4
+$panel_button_spacing: 20px
+$panel_button_label_space : 0.05
+$panel_label_size : 18px
+
+// toggle view
+$toggle_width : $width * .6
+$toggle_height : $height * .125
+$toggle_font_size : $toggle_height * .5
+$toggle_corner : 10px
+$toggle_margin : 10px
+
+// progress display
+$display_corner : 15px
+$location_margin : 10px
+$location_width : 46%
+
+// display labels
+$label_font_size : 13px
+
+// location
+$location_name_font_size : 17px
+$location_time_font_size : 26px
+
+// map panning
+$map_height: 100px
+
+// airplane
+$aircraft_width : 160px
+$aircraft_height : 65px
+$aircraft_background : url(aircraft.png)
+
+// arrow image
+$arrow_width : 300px
+$arrow_height : 50px
+$arrow_top : 70px
+$arrow_left : 80px
+$arrow_background : url(arrow.png)
+
+// images
+$header_image : url(logo.png)
+$background_image : url(background.png)
+$panel_button_image : url(panel_button.png)
+$panel_button_reading_image : url(icon_reading.png)
+$panel_button_halo_image : url(icon_reading.png)
+$panel_button_table_image : url(icon_reading.png)
+$panel_button_call_image : url(icon_reading.png)
+$panel_button_reading_image_on : url(icon_reading_on.png)
+$panel_button_halo_image_on : url(icon_reading_on.png)
+$panel_button_table_image_on : url(icon_reading_on.png)
+$panel_button_call_image_on : url(icon_reading_on.png)
+
+// calculated values
+$margin : $width * $outer_margin
+$button_width: ( ( $width - ( $margin * 2 )) - ( ( $panel_button_count - 1 ) * $panel_button_spacing ) ) / $panel_button_count
+$display_width : $width - ( $margin * 2 )
+$display_extra : 20px
+$display_height : $height - $toggle_height - $toggle_margin + $display_extra
+$locations_bottom : $location_margin + $display_extra
+
+
+// colors
+$view_border_color : #d1d1d1
+$panel_button_text_color : #fff
+$panel_button_shadow_color : #000
+$toggle_background_color : #dededc
+$display_border_color : #c5c9cc
+$display_background_top : #232c3b
+$display_background_bottom : #6b6c6d
+$location_text_color : #fff
+$location_gradient_a : #7c8288
+$location_gradient_b : #22252c
+$location_gradient_c : #1b2229
+$label_color : #fff
+$toggle_color : #0148b8
+
+// layout
+.view
+  height : $height
+  width : $width
+
+.panel
+  @extend .view
+  @include animate( top )
+  position : absolute
+  top : 0
+  left : 0
+
+
+html, body
+  height : 100%
+  font-family : sans-serif
+  @include gradient( #444, #222 )
+
+
+#view
+  @extend .view
+
+  overflow : hidden
+  position : relative
+  left: 50%
+  top: 50%
+  @include transform( translate(-50%,-50%) )
+
+  border : 3px solid $view_border_color
+  box-shadow : 0 3px 35px #000
+
+  background : $background_image
+  background-size : 100% 100%
+
+
+
+// button panel
+#controls
+  @extend .panel
+  margin : 0 0 0 $margin
+
+  #header
+    height : $height * .3
+    background-image : $header_image
+    background-size : auto 40%
+    background-position : 45% 25%
+    background-repeat : no-repeat
+
+    @include animate( height, 0.4s, 0.2s )
+
+    #view.progress &
+      height : 150px
+      @include animate( height, 0.4s, 0.2s )
+
+  #view.progress &
+    top : -$height
+
+  #buttons
+    top : 10px
+
+    #view.progress &
+      opacity : 0
+      @include animate( all )
+      @include transform( scale( 2, 2 ) translateY( 75px ) )
+
+    li
+      background : $panel_button_image
+      background-size : 100% 100%
+      width : $button_width
+      height : $button_width * 1.25
+      float : left
+      margin-left : $panel_button_spacing
+
+      position : relative
+      top : 0
+      opacity : 1
+
+      text-align : center
+      font-size : $panel_label_size
+      font-weight : bold
+
+      color : $panel_button_text_color
+      text-shadow : 0 1px 2px $panel_button_shadow_color
+
+      &.activate
+        font-weight : bold
+        +play_animation( bounce, 0.2s )
+
+
+      #view.progress &
+        top : -40px
+        opacity : 0
+
+      i
+        display : block
+        height : $button_width
+        margin-bottom : $button_width * $panel_button_label_space
+        background-size : 90% 90%
+        background-position : 50% 0
+
+      &.halo
+        @include animate( all, 0.5s, 0.1s )
+        #view.progress &
+          @include animate( all, 0.5s, 0.1s )
+        i
+          background-image : $panel_button_halo_image
+        &.on i
+          background-image : $panel_button_halo_image_on
+
+      &.table
+        @include animate( all, 0.5s, 0.2s )
+        #view.progress &
+          @include animate( all, 0.5s, 0.2s )
+        i
+          background-image : $panel_button_table_image
+        &.on i
+          background-image : $panel_button_table_image_on
+
+
+      &.reading
+        @include animate( all, 0.5s, 0.3s )
+        #view.progress &
+          @include animate( all, 0.5s, 0.3s )
+        i
+          background-image : $panel_button_reading_image
+        &.on i
+          background-image : $panel_button_reading_image_on
+
+      &.call
+        @include animate( all, 0.5s, 0.4s )
+        #view.progress &
+          @include animate( all, 0.5s, 0.4s )
+        i
+          background-image : $panel_button_call_image
+        &.on i
+          background-image : $panel_button_call_image_on
+
+    li:first-child
+      margin-left : 0
+
+
+// current trip progress
+#progress
+  @extend .panel
+  top : $height - $toggle_height
+
+  // expanding view
+  #view.progress &
+    top : $toggle_margin
+
+
+#toggle
+
+  width : $toggle_width
+  height : $toggle_height
+  background : $toggle_background_color
+  border-radius : $toggle_corner $toggle_corner 0 0
+  font-weight : bold
+  color : $toggle_color
+
+  @include center
+  position : relative
+
+  text-align : center
+  line-height : $toggle_height
+  font-size : $toggle_font_size
+
+
+#display
+  width : $display_width
+  height : $display_height
+
+  border : 2px solid $display_border_color
+  border-radius : 15px
+  position : absolute
+  left : $margin
+  +gradient( $display_background_top, $display_background_bottom )
+
+#locations
+
+  width : $display_width
+  position : absolute
+  bottom : $locations_bottom
+  color : $location_text_color
+  font-weight : bold
+
+  li
+    +animate( all, 3s )
+    opacity : 0
+
+    width : $location_width
+    float : right
+    margin : 0 $location_margin 0 0
+
+    background: $location_gradient_c
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,$location_gradient_a), color-stop(50%,$location_gradient_b), color-stop(51%,$location_gradient_c), color-stop(100%,$location_gradient_c))
+    background: -webkit-linear-gradient(top,  $location_gradient_a 0%,$location_gradient_b 50%,$location_gradient_c 51%,$location_gradient_c 100%)
+    background: linear-gradient(to bottom,  $location_gradient_a 0%,$location_gradient_b 50%,$location_gradient_c 51%,$location_gradient_c 100%)
+
+    box-shadow : inset 0 0 0 3px $location_gradient_c
+
+    #view.progress &
+      +animate( opacity, 1s )
+      opacity : 1
+
+    h3
+      font-size : $location_name_font_size
+      padding : 10px 0 5px 10px
+    h5
+      font-size : $location_time_font_size
+      padding : 0 0 10px 10px
+
+  li:first-child
+    float : left
+    margin : 0 0 0 $location_margin
+
+
+#globe
+  width : $display_width
+  height : $map_height
+  overflow : hidden
+
+  position : relative
+  top : 90px
+
+  +transform( scale( .9, .2 ) translate( 0, 0 ))
+  +animate( all, 1s )
+  opacity : 0
+
+  #view.progress &
+    +transform( scale( 1,1 ) translate( 0,0 ) )
+    +animate( all, 1s )
+    opacity : 1
+
+  #gloss
+    width : $display_width
+    height : $map_height
+    position : absolute
+    background: url(globe.png)
+    background-size : 100% auto
+    opacity : .5
+    z-index : 1
+
+  #map
+    height : $map_height
+    background: url(map.png)
+    -webkit-mask-image: url(globe_mask.png)
+    background-size : 100% auto
+    -webkit-mask-size : 100% auto
+    +play_animation( scroll, 3000s )
+
+    -webkit-animation-timing-function : linear
+    animation-timing-function : linear
+    -webkit-animation-iteration-count : infinite
+    animation-iteration-count : infinite
+
+
+#aircraft
+  position : absolute
+  z-index : 10
+
+  top : 48px
+  left : 30px
+
+  +transform( translate( -140px, 30px ) scale( 2,2 ))
+  opacity : 0
+  +animate( all, 5s )
+
+  #view.progress &
+    +animate( all, 1s )
+    +transform( translate( 0, 0 ) scale( 1,1 ))
+    opacity : 1
+
+  .img
+    width : $aircraft_width
+    height : $aircraft_height
+    background : $aircraft_background
+    background-size : 100% 100%
+
+    +play_animation( wobble, 5s )
+    -webkit-animation-timing-function : linear
+    animation-timing-function : linear
+    -webkit-animation-iteration-count : infinite
+    animation-iteration-count : infinite
+
+.label
+  color : $label_color
+  font-size : $label_font_size
+  font-weight : bold
+  position : absolute
+
+  top : 10px
+  +animate( all, 5s )
+  opacity : 0
+  z-index : 5
+
+  #view.progress &
+    +transform( translate( 0,0 ))
+    +animate( all, 1s )
+    opacity : 1
+
+
+#time
+  right : 10px
+  +transform( translate( 0, 70px ))
+
+#stats
+  left : 10px
+  +transform( translate( 0, 70px ))
+
+#altitude
+  top : 123px
+  +transform( translate( 0, 70px ))
+  width : $display_width
+  text-align :  center
+
+
+#arrow
+  width : $arrow_width
+  height : $arrow_height
+  background : $arrow_background
+  background-size : 100% 100%
+  position : absolute
+  z-index : 3
+  top : $arrow_top
+  left : $arrow_left
+  opacity : 0
+  +animate( opacity, 5s )
+  // +play_animation( travel, 200s )
+  -webkit-transform-origin : 100% 100%
+  transform-origin : 100% 100%
+
+  #view.progress &
+    opacity : .4
+    +animate( all, 5s )

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <title>Legacy</title>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+
+    <link rel="stylesheet" href="layout.css" type="text/css" />
+
+  </head>
+  <body>
+
+
+    <div id="view" >
+
+      <div id="controls" >
+        <div id="header" ></div>
+
+        <ul id="buttons" >
+          <li class="halo" ><i></i> Halo Light</li>
+          <li class="table" ><i></i> Table Light</li>
+          <li class="reading" ><i></i> Reading Light</li>
+          <li class="call" ><i></i> Call Attendant</li>
+        </ul>
+
+      </div>
+
+      <div id="progress" >
+        <div id="toggle" class="center" >Flight Info</div>
+
+        <div id="display" >
+          <div id="stats" class="label" >AIR SPEED 500</div>
+          <div id="time" class="label" >7:40AM</div>
+          <div id="altitude" class="label" >
+            <div>ALTITUDE 36,000 FT</div>
+          </div>
+
+          <div id="arrow" ></div>
+
+          <div id="aircraft" >
+            <div class="img" ></div>
+          </div>
+
+          <div id="globe" >
+            <div id="gloss" ></div>
+            <div id="map" ></div>
+          </div>
+
+          <ul id="locations" >
+            <li class="source" >
+              <h3>CHICAGO, IL</h3>
+              <h5>6:45 AM CST</h5>
+            </li>
+            <li class="destination" >
+              <h3>SAN DIEGO, CA</h3>
+              <h5>8:10 AM PST</h5>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+    </div>
+
+    <script src="jquery.js" type="text/javascript" ></script>
+    <script src="angular.js" type="text/javascript" ></script>
+    <script src="app.js" type="text/javascript" ></script>
+    <script type="text/javascript" src="phonegap.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript">
+        app.initialize();
+    </script>
+  </body>
+</html>
